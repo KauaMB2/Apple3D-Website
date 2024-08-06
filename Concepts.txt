@@ -1,0 +1,5 @@
+Animations libraries:
+Frame Motion: https://www.framer.com/motion/
+GSAP: https://gsap.com
+
+RUN "rafce" INSIDE A FILE OF A NEW REACT NATIVE COMPONENT TO CREATE THE BASE(59:40)
