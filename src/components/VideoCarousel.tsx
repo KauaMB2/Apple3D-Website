@@ -88,7 +88,6 @@ const VideoCarousel = () => {
                 });
               }
             },
-    
             // when the video is ended, replace the progress bar with the indicator and change the background color
             onComplete: () => {
               if (isPlaying) {
@@ -135,7 +134,10 @@ const VideoCarousel = () => {
                 setVideo((prevVideo)=>({...prevVideo, isLastVideo: false, videoId: 0}))
                 break
             case 'play':
-                setVideo((prevVideo)=>({...prevVideo, isPlaying: !prevVideo.isPlaying }))
+                setVideo((prevVideo)=>({...prevVideo, isPlaying: true }))
+                break
+            case 'pause':
+                setVideo((prevVideo)=>({...prevVideo, isPlaying: false }))
                 break
             default:
                 return video
@@ -157,11 +159,15 @@ const VideoCarousel = () => {
                         <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
                         <video
                             id="video"
+                            className={`${list.id===2 && 'translate-x-44'} pointer-events-none`}
                             playsInline={true}
                             preload="auto"
                             muted
                             ref={(el: HTMLVideoElement) => { if (el) videoRef.current[i] = el; }}
                             onPlay={handlePlay}
+                            onEnded={()=>{
+                              i !== 3 ? handleProcess('video-end', i) : handleProcess('video-last')
+                            }}
                             onLoadedMetadata={(e: any) => { handleLoadedMetaData(e) }}
                             >
                             <source src={list.video} type="video/mp4" />
@@ -184,7 +190,7 @@ const VideoCarousel = () => {
                 {
                     videoRef.current.map((_, i)=>(
                         <span key={i} ref={(el:HTMLSpanElement)=>( videoDivRef.current[i]=el)} className="mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer">
-                            <span className="absolute h-full w-full rounded-full" ref={(el:HTMLSpanElement)=>( videoSpanRef.current[i]=el)}></span>
+                            <span className="absolute h-full w-full rounded-full" ref={(el:HTMLSpanElement)=>( videoSpanRef.current[i]=el)}></span>{/*(el:HTMLSpanElement)=>(videoSpanRef.current[i]=el) is a function that sets the i-th element of videoSpanRef.current to el, where el is the actual DOM element of the <span>.*/}
                         </span>
                     ))
                 }
@@ -206,5 +212,4 @@ const VideoCarousel = () => {
     </>
   )
 }
-
 export default VideoCarousel
