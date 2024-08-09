@@ -1,9 +1,10 @@
 import * as THREE from "three";
+import gsap from "gsap";
 
-interface Animation {
-  transform: string;
-  duration: number;
-}
+import { ScrollTrigger } from "gsap/all";
+gsap.registerPlugin(ScrollTrigger)
+
+
 
 interface AnimatedProps {
   timeline: gsap.core.Timeline;
@@ -11,8 +12,31 @@ interface AnimatedProps {
   rotationState: number;
   firstTarget: string;
   secondTarget: string;
-  animationProps: Animation;
+  animationProps: gsap.TweenVars;
 }
+
+interface AnimateWithGsapProps {
+  target:string
+  animationProps: gsap.TweenVars
+  scrollProps?: any
+}
+
+
+export const animateWithGsap = ({
+  target,
+  animationProps,
+  scrollProps,
+}: AnimateWithGsapProps) => {
+  gsap.to(target, {
+    ...animationProps,
+    scrollTrigger: {
+      trigger: target,
+      toggleActions: "restart none none none",
+      start: 'top 85%',
+      ...scrollProps,
+    },
+  });
+};
 
 export const animateWidthGsapTimeline = ({
   timeline,

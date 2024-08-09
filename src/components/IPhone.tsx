@@ -21,7 +21,7 @@ interface ModelProps {
 
 function IPhone(props: ModelProps) {
   const { nodes, materials } = useGLTF("/models/scene.glb")
-  const texture = useTexture(props.item.img);
+  const texture = useTexture(props.item.img)
 
   useEffect(() => {
     Object.entries(materials).forEach(([key, material]) => {
